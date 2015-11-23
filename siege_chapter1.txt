@@ -1,1 +1,1 @@
-http://localhost/chapter1/write POST message=efgh
+http://localhost:8080/chapter1/write POST message=efgh
