@@ -1,0 +1,8 @@
+#!/bin/sh
+# varnish
+echo 'install varnish config'
+cp ./varnish/default.vcl /etc/varnish/default.vcl
+echo 'done.'
+echo 'restart varnish'
+service varnish restart
+echo 'done.'
