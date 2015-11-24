@@ -6,3 +6,11 @@ echo 'done.'
 echo 'restart varnish'
 service varnish restart
 echo 'done.'
+
+# php opcache config
+echo 'install php opcache config'
+cp ./php.d/10-opcache.ini /etc/php.d/10-opcache.ini
+echo 'done.'
+echo 'restart httpd'
+service httpd restart
+echo 'done.'
