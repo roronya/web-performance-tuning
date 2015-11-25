@@ -14,3 +14,11 @@ echo 'done.'
 echo 'restart httpd'
 service httpd restart
 echo 'done.'
+
+# mysql config
+echo 'install my.cnf'
+cp my.cnf /etc/my.cnf
+echo 'done.'
+echo 'restart mysql'
+service mysql restart
+echo 'done.'
