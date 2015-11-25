@@ -7,6 +7,14 @@ sub vcl_recv {
         if(req.url ~ "^/login"){
                 return(lookup);
 	}
+	if (req.url ~ "^/exercise/part1"){
+		if (req.http.If-Modified-Since){
+			error 304;
+		}
+		else {
+			return(lookup);
+		}
+	}
 	if (req.url ~ "^/exercise/part5"){
 		return(lookup);
 	}
