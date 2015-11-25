@@ -6,7 +6,11 @@ backend default {
 sub vcl_recv {
         if(req.url ~ "^/login"){
                 return(lookup);
-        } else {
+	}
+	if (req.url ~ "^/exercise/part5"){
+		return(lookup);
+	}
+        else {
                 return(pipe);
         }
 }
