@@ -23,6 +23,13 @@ $app['memcached'] = function() use($app,$host,$memcachedConfig){
 };
 
 $con = $app['db'];
+$sql = 'select * from messages where title = ? order by created_at desc limit 10';
+$sth = $con->prepare($sql);
+$sth->execute(array('チューニングバトル'));
+$resent_messages = $sth->fetchAll();
+$app['memcached']->set('resent_messages', $resent_messages);
+/**
+$con = $app['db'];
 $sql = 'select id,name from users order by id';
 $sth = $con->prepare($sql);
 $sth->execute();
@@ -33,5 +40,6 @@ while($result = $sth->fetch(PDO::FETCH_ASSOC)){
         echo $result['id']."\n";
     }
 }
+**/
 $message = 'finished';
 echo  $message;

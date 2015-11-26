@@ -36,22 +36,29 @@ $app->get('/exercise/part2',function() use($app) {
 
 $app->post('/exercise/part3',function() use($app) {
     $con = $app['db'];
-    $sql = 'insert into messages values(null,?,?,?,now(),now())';
+    $now = new \DateTime('now');
+    $now = $now->format('Y:m:d H:i:s');
+    $sql = 'insert into messages values(null,?,?,?,?,?)';
     $sth = $con->prepare($sql);
     $id = mt_rand(1,1000007);
-    $sth->execute(array($id,$_POST['title'],$_POST['message'].'by '.$id));
+    $sth->execute(array($id,$_POST['title'],$_POST['message'].'by '.$id, $now, $now));
+
+    if ($_POST['title'] == 'チューニングバトル') {
+	$message = array('user_id' => $id, 'title' => $_POST['title'] , 'message' => $_POST['message'].'by '.$id, 'created_at' => $now, 'updated_at' => $now);
+        $resent_messages = $app['memcached']->get('resent_messages');
+	array_unshift($resent_messages, $message);
+	array_pop($resent_messages);
+	$app['memcached']->set('resent_messages', $resent_messages);
+    }
     return $app->redirect('/exercise/part1');
 });
 
 $app->get('/exercise/part4',function() use($app) {
-    $con = $app['db'];
-    $sql = 'select * from messages where title = ? order by created_at desc limit 10';
-    $sth = $con->prepare($sql);
-    $sth->execute(array('チューニングバトル'));
-    $message_line = $sth->fetchAll();
-    return $app['twig']->render('exercise_part2.twig',['message_line' => $message_line]);
+    $resent_messages = $app['memcached']->get('resent_messages');
+    return $app['twig']->render('exercise_part2.twig', ['message_line' => $resent_messages]);
 });
 
 $app->get('/exercise/part5',function() use($app) {
     return $app['twig']->render('exercise_part5.twig');
 });
+

@@ -30,3 +30,4 @@ $app['memcached'] = function() use($app,$host,$memcachedConfig){
     return $mem;
 };
 
+#$app['debug']=true;
