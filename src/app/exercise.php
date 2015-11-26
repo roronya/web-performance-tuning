@@ -8,22 +8,18 @@ $app->get('/exercise/part1',function() use($app) {
 });
 
 $app->get('/exercise/part2',function() use($app) {
-    $sql = 'select name,count(distinct message) as messages, count(distinct follow) as follow, count(distinct follower) as follower from (select name,messages.id as message,follows.id as follow,follower.id as follower from users left join messages on users.id = messages.user_id left join follows as follows on users.id = follows.user_id left join follows as follower on users.id = follower.follow_user_id where users.id = ?)summary group by name';
-    $id = mt_rand(1,100000);
     $con = $app['db'];
+    $sql = 'select name,follow,follower,messages,message from profile left join messages on profile.id = messages.id where profile.id = ?';
     $sth = $con->prepare($sql);
+    $id = mt_rand(1,100000);
     $sth->execute(array($id));
     $result = $sth->fetch(PDO::FETCH_BOTH);
     $user = $result['name'];
     $messages = $result['messages'];
     $follow = $result['follow'];
     $follower = $result['follower'];
-
-    $sql = 'select * from messages where id = ? order by created_at desc limit 10';
-    $sth = $con->prepare($sql);
-    $sth->execute(array($id));
-    $message_line = $sth->fetchAll();
-    return $app['twig']->render('exercise_part2.twig',['user' => $user,'messages' => $messages,'follow' => $follow,'follower' => $follower,'message_line' => $message_line]);
+    $message = $result['message'];
+    return $app['twig']->render('exercise_part2.twig',['user' => $user,'messages' => $messages,'follow' => $follow,'follower' => $follower,'message' => $message]);
 });
 
 $app->post('/exercise/part3',function() use($app) {
@@ -41,6 +37,10 @@ $app->post('/exercise/part3',function() use($app) {
 	array_unshift($resent_messages, $message);
 	array_pop($resent_messages);
 	$app['memcached']->set('resent_messages', $resent_messages);
+
+	$sql = 'update profile set messages = messages + 1 where id = ?';
+	$sth = $con->prepare($sql);
+	$sth->execute(array($id));
 
 	$client = new GuzzleHttp\Client();
 	$res = $client->request('REFRESH', 'http://localhost/');

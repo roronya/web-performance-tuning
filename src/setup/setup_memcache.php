@@ -28,6 +28,16 @@ $sth = $con->prepare($sql);
 $sth->execute(array('チューニングバトル'));
 $resent_messages = $sth->fetchAll();
 $app['memcached']->set('resent_messages', $resent_messages);
+
+$sql = 'select profile.id as id,name,follow,follower,messages,message from profile left join messages on profile.id = messages.id';
+$sth = $con->prepare($sql);
+$sth->execute();
+while($result = $sth->fetch(PDO::FETCH_ASSOC)){
+	$app['memcached']->set($result['id'], array('name' => $result['name'], 'follow' => $result['follow'], 'follower' => $result['follower'], 'messages' => $result['messages'], 'message' => $result['message']));
+	if ($result['id'] % 100 === 0) {
+		echo $result['id']."\n";
+	}
+}
 /**
 $con = $app['db'];
 $sql = 'select id,name from users order by id';

@@ -16,11 +16,9 @@
 <a href="/"><span class="badge">{{ follower }}</span></a>
 {% endblock %}
 {% block content%}
-{%if message_line %}
+{%if message %}
   <ul>
-  {% for message in message_line %}
-    <li> {{ message.message }} ({{ message.created_at }})</li>
-  {% endfor %}
+	<li>{{ message }}</li>
   </ul>
 {% endif %}
 {% endblock %}
