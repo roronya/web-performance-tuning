@@ -9,7 +9,7 @@ $app->get('/exercise/part1',function() use($app) {
 
 $app->get('/exercise/part2',function() use($app) {
     $con = $app['db'];
-    $sql = 'select name,follow,follower,messages,message from profile left join messages on profile.id = messages.id where profile.id = ?';
+    $sql = 'select name,follow,follower,messages,message,created_at from profile left join messages on profile.id = messages.id where profile.id = ?';
     $sth = $con->prepare($sql);
     $id = mt_rand(1,100000);
     $sth->execute(array($id));
@@ -18,8 +18,8 @@ $app->get('/exercise/part2',function() use($app) {
     $messages = $result['messages'];
     $follow = $result['follow'];
     $follower = $result['follower'];
-    $message = $result['message'];
-    return $app['twig']->render('exercise_part2.twig',['user' => $user,'messages' => $messages,'follow' => $follow,'follower' => $follower,'message' => $message]);
+    $message_line = array(array('message' => $result['message'], 'created_at' => $result['created_at']));
+    return $app['twig']->render('exercise_part2.twig',['user' => $user,'messages' => $messages,'follow' => $follow,'follower' => $follower,'message_line' => $message_line]);
 });
 
 $app->post('/exercise/part3',function() use($app) {
