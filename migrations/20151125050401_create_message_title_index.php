@@ -9,7 +9,7 @@ class CreateMessageTitleIndex extends Migration
      */
     public function up()
     {
-	$sql = "alter table messages add index title_index(title)";
+	$sql = "alter table messages add index title_created_at_index(title, created_at)";
 	$container = $this->getContainer();
 	$container['db']->query($sql);
     }
@@ -19,7 +19,7 @@ class CreateMessageTitleIndex extends Migration
      */
     public function down()
     {
-	$sql = "alter table messages drop index title_index";
+	$sql = "alter table messages drop index title_created_at_index";
 	$container = $this->getContainer();
 	$container['db']->query($sql);	
     }
