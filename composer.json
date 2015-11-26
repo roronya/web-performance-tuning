@@ -2,7 +2,8 @@
     "require":{
         "silex/silex":"1.1.*",
         "twig/twig": "v1.13.0",
-	"davedevelopment/phpmig": "1.2.0"
+	"davedevelopment/phpmig": "1.2.0",
+	"guzzlehttp/guzzle": "6.1.1"
     },
     "autoload":{
         "psr-0":{"":"src"}

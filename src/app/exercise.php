@@ -49,6 +49,10 @@ $app->post('/exercise/part3',function() use($app) {
 	array_unshift($resent_messages, $message);
 	array_pop($resent_messages);
 	$app['memcached']->set('resent_messages', $resent_messages);
+
+	$client = new GuzzleHttp\Client();
+	$res = $client->request('REFRESH', 'http://localhost/');
+
     }
     return $app->redirect('/exercise/part1');
 });

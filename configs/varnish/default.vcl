@@ -4,16 +4,16 @@ backend default {
 }
 
 sub vcl_recv {
-        if(req.url ~ "^/login"){
-                return(lookup);
+	if (req.request == "REFRESH") {
+		ban("req.url ~ " + "^/exercise/part4");
+		set req.request = "GET";
+		error 200 "refresh.";
 	}
 	if (req.url ~ "^/exercise/part1"){
-		if (req.http.If-Modified-Since){
-			error 304;
-		}
-		else {
-			return(lookup);
-		}
+		return(lookup);
+	}
+	if (req.url ~ "^/exercise/part4") {
+		return(lookup);
 	}
 	if (req.url ~ "^/exercise/part5"){
 		return(lookup);
@@ -22,11 +22,3 @@ sub vcl_recv {
                 return(pipe);
         }
 }
-sub vcl_fetch {
-        if (req.url ~ "login") {
-                set beresp.ttl = 0.2s;
-                set beresp.grace = 0.2s;
-        }
-        return (deliver);
-}
-
