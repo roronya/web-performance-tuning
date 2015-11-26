@@ -1,5 +1,5 @@
 PORT="11211"
 USER="memcached"
-MAXCONN="1024"
+MAXCONN="4096"
 CACHESIZE="4"
-OPTIONS=""
+OPTIONS="-s /tmp/memcached.sock"

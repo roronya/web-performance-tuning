@@ -24,9 +24,9 @@ $app['db'] = function() use($app,$host,$mysqldConfig){
     return $con;
 };
 
-$app['memcached'] = function() use($app,$host,$memcachedConfig){
+$app['memcached'] = function() use($app){
     $mem = new Memcached();
-    $mem->addServer($host,$memcachedConfig['port']);
+    $mem->addServer('/tmp/memcached.sock',0);
     return $mem;
 };
 
