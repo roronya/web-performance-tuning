@@ -23,14 +23,7 @@
       </div>
       <h1> チューニングバトル説明 <h1>
       <div class="jumbotron">
-      {% block content %}
-      {%if message_line %}
-        {% for message in message_line %}
-          <h2> {{ message.message }} <h2>
-        {% endfor %}
-      {% endif %}
-      {% endblock %}
-      </div>
+     </div>
 
       <footer class="footer">
         <p>&copy; Company 2015</p>
@@ -40,6 +33,15 @@
 
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script>
+	var d = new Date();
+	var year = d.getFullYear();
+	$(function() {
+		for (var i=0;i<1000;i++){
+			$('.jumbotron').append('<h2>Sunrise' + year + '　チューニングバトル！誰が栄冠の1位になるのか？0.001秒を削る熱いバトル！！！誰が？誰が？誰が？誰が栄冠の1位に！！！！！！！！！！！</h2>');
+		}
+	});
+    </script>
   </body>
 </html>
 

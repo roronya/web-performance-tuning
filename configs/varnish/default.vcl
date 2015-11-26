@@ -9,7 +9,7 @@ sub vcl_recv {
 		set req.request = "GET";
 		error 200 "refresh.";
 	}
-	if (req.url ~ "^/exercise/part1"){
+	if (req.url ~ "^/exercise/part1") {
 		return(lookup);
 	}
 	if (req.url ~ "^/exercise/part4") {
