@@ -61,4 +61,3 @@ $app->get('/exercise/part4',function() use($app) {
 $app->get('/exercise/part5',function() use($app) {
     return $app['twig']->render('exercise_part5.twig');
 });
-

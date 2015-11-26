@@ -22,3 +22,15 @@ echo 'done.'
 echo 'restart mysql'
 service mysql restart
 echo 'done.'
+
+# memcachd config
+echo 'install memcached config'
+cp memcached /etc/sysconfig/memcached
+echo 'done.'
+echo 'restart memcachd'
+service memcached restart
+echo 'done.'
+echo 'prepare cache data'
+php ../src/setup/setup_memcache.php
+echo ''
+echo 'done'
