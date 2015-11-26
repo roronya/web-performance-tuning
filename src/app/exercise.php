@@ -4,12 +4,7 @@ use Symfony\Component\HttpFoundation\Response;
 date_default_timezone_set('Asia/Tokyo');
 
 $app->get('/exercise/part1',function() use($app) {
-    $message_line = [];
-    $year = date('Y');
-    for($i = 0; $i <= 1000; $i++){
-        $message_line[] = ['message' => 'SunriseYear　チューニングバトル！誰が栄冠の1位になるのか？0.001秒を削る熱いバトル！！！誰が？誰が？誰が？誰が栄冠の1位に！！！！！！！！！！！'];
-    }
-    return $app['twig']->render('exercise_part1.twig',['message_line' => $message_line]);
+    return $app['twig']->render('exercise_part1.twig');
 });
 
 $app->get('/exercise/part2',function() use($app) {
