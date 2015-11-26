@@ -1,2 +1,2 @@
 #!/bin/sh
-siege -c $1 -f 3.txt
+siege -c $1 -f `dirname ${0}`/3.txt
